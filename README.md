@@ -1,69 +1,55 @@
-# React + TypeScript + Vite
+# Vegam Admin Dashboard - Frontend Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a fully functional and responsive admin dashboard for managing users, built as a take-home assignment for Vegam. It features a modern, metadata-driven data grid with real-time search and optimistic UI updates.
 
-Currently, two official plugins are available:
+**Live Demo:** [https://your-deployment-link.vercel.app/](https://your-deployment-link.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Core Features Implemented
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- ✅ **Metadata-Driven Table:** The data grid columns, widths, and custom cell rendering are all dynamically generated from a central JSON configuration (`column-metadata.json`), making the table highly maintainable.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- ✅ **Mock API with MSW:** Utilizes Mock Service Worker (MSW) to simulate a complete backend, providing realistic data fetching, searching, and patching without needing a live server.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- ✅ **Optimistic UI Updates:** When activating or deactivating a user, the UI updates instantly for a seamless and fast user experience. The change is then synchronized with the mock API in the background.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- ✅ **Fully Responsive Design:** The dashboard is designed to be usable across all devices. Non-essential columns are automatically hidden on mobile and tablet screens to prevent horizontal scrolling and maintain a clean layout.
+
+- ✅ **Debounced Server-Side Search:** A search bar allows filtering users by name or email. The search query is debounced to prevent excessive API calls, ensuring efficient data fetching as the user types.
+
+- ✅ **Performance-Optimized:** Implements `react-query` for efficient data caching and `material-react-table`'s row virtualization to ensure smooth performance, even with hundreds of rows.
+
+- ✅ **Modern Tech Stack:** Built with the latest industry-standard tools including React 18, TypeScript, Vite, and Material UI.
+
+## Tech Stack
+
+- **Framework:** React 18 + TypeScript  
+- **Build Tool:** Vite  
+- **Component Library:** Material UI & Material React Table  
+- **Data Fetching & State Management:** TanStack Query (React Query)  
+- **Mock API:** Mock Service Worker (MSW)  
+- **Utilities:** Faker.js (for data generation), date-fns (for date formatting)  
+- **Linting & Formatting:** ESLint + Prettier  
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or later recommended)  
+- npm or yarn  
+
+### Installation & Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/vegam-frontend-assignment.git
+cd vegam-frontend-assignment
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+3. **Run the development server**
+   ```bash
+   npm run dev
+4. **Open http://localhost:5173 in your browser to view the app.**
