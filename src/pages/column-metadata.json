@@ -1,0 +1,33 @@
+[
+  {
+    "key": "name",
+    "header": "Name",
+    "type": "string",
+    "width": 220
+  },
+  {
+    "key": "email",
+    "header": "Email",
+    "type": "string",
+    "width": 260
+  },
+  {
+    "key": "status",
+    "header": "Status",
+    "type": "badge",
+    "width": 120
+  },
+  {
+    "key": "createdAt",
+    "header": "Joined",
+    "type": "date",
+    "format": "dd MMM yyyy",
+    "width": 140
+  },
+  {
+    "key": "groups",
+    "header": "Groups",
+    "type": "chiplist",
+    "width": 280
+  }
+]
