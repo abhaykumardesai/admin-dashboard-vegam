@@ -2,7 +2,7 @@
 
 This project is a fully functional and responsive admin dashboard for managing users, built as a take-home assignment for Vegam. It features a modern, metadata-driven data grid with real-time search and optimistic UI updates.
 
-**Live Demo:** [https://your-deployment-link.vercel.app/](https://your-deployment-link.vercel.app/)
+**Live Demo:** [https://vegam-dashboard.onrender.com/](https://vegam-dashboard.onrender.com/)
 
 
 ## Core Features Implemented
