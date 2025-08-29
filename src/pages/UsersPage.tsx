@@ -13,6 +13,8 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
+
+// Local-first development: Mock API and types
 import {
   fetchUsers,
   updateUserStatus,
@@ -21,30 +23,42 @@ import {
 import { useUserTableColumns } from '../utils/columnFactory';
 import type { User } from '../types';
 
+/**
+ * The main page component for displaying the user management dashboard.
+ * It handles data fetching, state management (loading, error, success),
+ * and renders the metadata-driven data grid with interactive actions.
+ */
 const UsersPage = () => {
+  // Get the dynamic columns from our metadata-driven factory
   const columns = useUserTableColumns();
   const queryClient = useQueryClient();
 
+  // State for the search input
   const [globalFilter, setGlobalFilter] = useState('');
+  // State for the debounced search term to avoid excessive API calls
   const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useState('');
+
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
     severity: 'success' | 'error';
   } | null>(null);
 
+  // Debounce effect to prevent API calls on every keystroke
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedGlobalFilter(globalFilter);
-    }, 500);
+    }, 500); // 500ms delay
     return () => clearTimeout(handler);
   }, [globalFilter]);
 
+  // Query for fetching user data, re-fetches when the debounced filter changes
   const { data, isError, isLoading, isFetching } = useQuery({
     queryKey: ['users', debouncedGlobalFilter],
     queryFn: () => fetchUsers(debouncedGlobalFilter),
   });
 
+  // Mutation for updating a user's status with optimistic UI
   const { mutateAsync: updateUser } = useMutation({
     mutationFn: updateUserStatus,
     onMutate: async (updatedUser) => {
@@ -70,7 +84,8 @@ const UsersPage = () => {
 
       return { previousUsers };
     },
-    onError: (err, variables, context) => {
+    // If the mutation fails, roll back to the previous state
+    onError: (_err, _variables, context) => {
       if (context?.previousUsers) {
         queryClient.setQueryData(
           ['users', debouncedGlobalFilter],
@@ -90,6 +105,7 @@ const UsersPage = () => {
         severity: 'success',
       });
     },
+    // Always refetch after the mutation is settled to ensure data consistency
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['users', debouncedGlobalFilter] });
     },
@@ -98,16 +114,18 @@ const UsersPage = () => {
   const table = useMaterialReactTable({
     columns: columns as MRT_ColumnDef<User>[],
     data: data?.data ?? [],
-    // Add globalFilter to the table's state object
+    // Synchronize the table's state with our component's state
     state: {
-      globalFilter, // <--- THIS IS THE FIX
+      globalFilter,
       isLoading,
       showAlertBanner: isError,
       showProgressBars: isFetching,
     },
+    // Configuration for server-side filtering
     manualFiltering: true,
     onGlobalFilterChange: setGlobalFilter,
 
+    // Performance and styling
     enableRowVirtualization: true,
     muiTableContainerProps: {
       sx: {
@@ -127,6 +145,8 @@ const UsersPage = () => {
         scrollbarColor: 'rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1)',
       },
     },
+
+    // Row actions configuration
     enableRowActions: true,
     positionActionsColumn: 'last',
     renderRowActions: ({ row }) => (
@@ -148,14 +168,14 @@ const UsersPage = () => {
     displayColumnDefOptions: {
       'mrt-row-actions': { header: 'Actions', size: 120 },
     },
+
+    // UI elements for error and search
     muiToolbarAlertBannerProps: isError
       ? { color: 'error', children: 'Error loading data' }
       : undefined,
-    // Add the search text field to the top toolbar
     renderTopToolbarCustomActions: () => (
       <TextField
         onChange={(e) => setGlobalFilter(e.target.value)}
-        // FIX: Ensure the value is never undefined
         value={globalFilter ?? ''}
         placeholder="Search by name or email"
         variant="outlined"
@@ -165,7 +185,7 @@ const UsersPage = () => {
   });
 
   return (
-    <Box sx={{ padding: '1rem' }}>
+    <Box sx={{ padding: { xs: '0.5rem', md: '1rem' } }}>
       <Typography variant="h4" sx={{ marginBottom: '1.5rem' }}>
         Users Dashboard
       </Typography>
@@ -189,6 +209,4 @@ const UsersPage = () => {
 };
 
 export default UsersPage;
-
-
 
