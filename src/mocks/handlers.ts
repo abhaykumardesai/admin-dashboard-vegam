@@ -36,19 +36,18 @@ export const handlers = [
     });
   }),
 
-  // ... more handlers will go here
-    http.patch('/api/users/:userId', async ({ params, request }) => {
-        const { userId } = params;
-        const { status } = await request.json() as { status: 'active' | 'inactive' };
+http.patch('/api/users/:userId', async ({ params, request }) => {
+    const { userId } = params;
+    const { status } = await request.json() as { status: 'active' | 'inactive' };
 
-        const userIndex = users.findIndex(u => u.id === userId);
+    const userIndex = users.findIndex(u => u.id === userId);
 
-        if (userIndex === -1) {
-            return new HttpResponse(null, { status: 404 });
-        }
+    if (userIndex === -1) {
+        return new HttpResponse(null, { status: 404 });
+    }
 
-        users[userIndex] = { ...users[userIndex], status };
+    users[userIndex] = { ...users[userIndex], status };
 
-        return HttpResponse.json(users[userIndex]);
-    }),
+    return HttpResponse.json(users[userIndex]);
+  }),
 ];

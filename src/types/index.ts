@@ -10,6 +10,6 @@ export type User = {
   name: string;
   email: string;
   status: "active" | "inactive";
-  createdAt: string; // ISO string format
+  createdAt: string;
   groups: Group[];
 };

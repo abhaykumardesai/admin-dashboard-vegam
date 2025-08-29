@@ -38,7 +38,6 @@ export const useUserTableColumns = () => {
           },
         };
 
-        // Custom cell rendering
         switch (col.type) {
           case 'badge':
             columnDef.Cell = ({ row }) => (
@@ -76,7 +75,6 @@ export const useUserTableColumns = () => {
   return columns;
 };
 
-// Example Table Component
 export const UserTable: React.FC<{ data: User[] }> = ({ data }) => {
   const columns = useUserTableColumns();
 
@@ -88,9 +86,8 @@ export const UserTable: React.FC<{ data: User[] }> = ({ data }) => {
       enablePagination
       enableStickyHeader
       muiTableContainerProps={{
-        sx: { overflowX: 'auto' }, // Horizontal scroll for small screens
+        sx: { overflowX: 'auto' },
       }}
-      // Collapsible rows for small screens
       renderDetailPanel={({ row }: { row: MRT_Row<User> }) => (
         <Box
           sx={{

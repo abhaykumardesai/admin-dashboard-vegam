@@ -85,8 +85,7 @@ const UsersPage = () => {
       return { previousUsers };
     },
     // If the mutation fails, roll back to the previous state
-    // ... inside useMutation
-    onError: (_err, _variables, context) => { // <-- Prefixed with underscores
+    onError: (_err, _variables, context) => { 
       if (context?.previousUsers) {
         queryClient.setQueryData(
           ['users', debouncedGlobalFilter],

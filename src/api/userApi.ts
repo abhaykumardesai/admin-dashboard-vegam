@@ -7,9 +7,7 @@ export interface ApiResponse {
   };
 }
 
-// CORRECTED: This function now accepts a 'query' string
 export const fetchUsers = async (query: string): Promise<ApiResponse> => {
-  // It uses the query to build the correct API endpoint URL
   const response = await fetch(`/api/users?query=${encodeURIComponent(query)}`);
   
   if (!response.ok) {
@@ -19,7 +17,6 @@ export const fetchUsers = async (query: string): Promise<ApiResponse> => {
   return response.json();
 };
 
-// This function was already correct, no changes needed
 export const updateUserStatus = async (userToUpdate: {
   id: string;
   status: 'active' | 'inactive';
